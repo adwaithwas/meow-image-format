@@ -1,78 +1,30 @@
-# 🐾 Meow Image Format & Gallery
+# meow image format & gallery
 
-Welcome to the **Meow Image Format & Gallery** project! This repository contains the complete specification and implementation for the custom `.meow` binary image format, along with a sleek, feature-rich Java Swing viewer/converter interface.
+i created this image format just for fun, as i was learning about how images encoding and computer graphics actually work. so i decided to attempt to create a basic image render format myself to get a better deep understanding of this topic. this is not a perfect image format and is not intented to be used as a regular day to day thing, as it is poor in areas like compression, etc, which is fine because this is just a passion project. i created a jframe wrapper for my back end to get a betetr hands on experience for my project, and i may or may not improvise this with other features like better compression and color modes, but fr now this is it and im hapy with this project so far.
 
----
+i learned a lot about computer graphics and byte encoding while making this project and readin documentation was a nice experience. i used little to no ai, excpet for debugging some parts of jframe but its ok ig lol.
 
-## 🎨 The `.meow` Binary Specification
+## how the format works (.meow format spec)
 
-The `.meow` format is a lightweight, raw uncompressed binary image format designed to be simple, fast to parse, and extremely cute.
+its a very basic custom binary layout:
+- Magic bytes: "MEOW" (4 bytes)
+- Height: 32-bit integer (4 bytes)
+- Width: 32-bit integer (4 bytes)
+- Pixel data: Sequential RGB bytes (3 bytes per pixel) for every pixel starting from top-left.
 
-### File Header & Layout
+## features
 
-| Offset (Bytes) | Data Type | Value / Description |
-| :--- | :--- | :--- |
-| `0x00 - 0x03` | ASCII String | `MEOW` (Magic Bytes identifier) |
-| `0x04 - 0x07` | Big-Endian 32-bit Integer | Image **Height** (in pixels) |
-| `0x08 - 0x0B` | Big-Endian 32-bit Integer | Image **Width** (in pixels) |
-| `0x0C` onwards | Sequential Bytes | **RGB Pixel Data** in row-major order (3 bytes per pixel: Red, Green, Blue) |
+- **viewer & gallery:** a clean black-themed window to open and see your images.
+- **zoom & pan:** you can use your mouse scroll wheel to zoom, and drag with left click to pan around.
+- **open standard images:** directly opens `.png` and `.jpg` (it converts them in memory so they load up).
+- **export to .meow:** converts standard image types and saves them as a `.meow` file.
+- **no dependencies:** compiled as a single runnable `.jar` file.
 
----
+## how to run
 
-## 🚀 Key Features
-
-* **Custom Encoding/Decoding:** Seamless serialization of standard pixel matrices into the `.meow` binary format.
-* **Universal Import/Convert:** Directly open `.jpg`, `.jpeg`, and `.png` files. They are automatically converted into `.meow` sequences in memory for immediate display.
-* **Sleek Swing GUI Wrapper (`MeowGallery`):**
-  * Modern, dark-themed image viewing canvas.
-  * Drag-to-pan navigation to glide around high-resolution images.
-  * Smooth mouse-wheel zooming (scroll up/down).
-  * Menu-based file importing and exporting.
-* **Standalone Executable:** Fully compiled into a single executable `MeowGallery.jar` file with zero external dependencies.
-
----
-
-## 🖥️ Project Structure
-
-* `MeowEncoder.java` — Core utility containing the static encoder implementation.
-* `MeowViewer.java` — A lightweight, quick file-path viewer.
-* `MeowGallery.java` — The main GUI application featuring menus, imports/exports, zooming, and panning.
-* `MeowImagePanel.java` — Custom render canvas managing graphics scaling, pan coordinate translations, and viewport bounds.
-* `MeowGallery.jar` — Pre-built executable binary.
-* `test_images/` — Sample source images and encoded `.meow` files.
-
----
-
-## 🛠️ Compilation & Running
-
-### Prerequisites
-* Java Development Kit (JDK) 8 or higher.
-
-### Running the Executable JAR
-You can run the application directly:
-```bash
-java -jar MeowGallery.jar
-```
-
-### Compiling from Source
-1. Compile the source files:
+1. Make sure you have java installed.
+2. Download the `MeowGallery.jar` file.
+3. Run it using the terminal or just double click it:
    ```bash
-   javac *.java
+   java -jar MeowGallery.jar
    ```
-2. Run the main gallery app:
-   ```bash
-   java MeowGallery
-   ```
-
----
-
-## 📸 How to Use the Gallery App
-
-1. **Open an Image:** Click `File` ➔ `Open Image`. You can choose `.meow`, `.jpg`, `.jpeg`, or `.png` files.
-2. **Navigate:** 
-   * **Zoom:** Use your mouse scroll wheel to zoom in and out.
-   * **Pan:** Click and hold your left mouse button to drag the image around when zoomed in.
-3. **Export as `.meow`:** Click `File` ➔ `Export as .meow` to save the currently viewed image in the custom `.meow` format at any location you choose.
-
----
-*Developed with 🐾 and precision.*
