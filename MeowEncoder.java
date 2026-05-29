@@ -9,19 +9,23 @@ public class MeowEncoder {
         BufferedImage img = ImageIO.read(new File("test_image.jpg"));
         int height = img.getHeight();
         int width = img.getWidth();
-        PrintWriter out = new PrintWriter("test_image.meow");
+        DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("test_image.meow")));
+
+        //writing magic bytes
+        out.writeBytes("MEOW");
 
         //writing height and width
-        out.println(height + " " + width);
+        out.writeInt(height);
+        out.writeInt(width);
 
         //writing rgb values
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
                 Color color = new Color(img.getRGB(j, i));
 
-                out.print(color.getRed() + " ");
-                out.print(color.getGreen() + " ");
-                out.print(color.getBlue() + " ");
+                out.writeByte(color.getRed());
+                out.writeByte(color.getGreen());
+                out.writeByte(color.getBlue());
             }
         }
 

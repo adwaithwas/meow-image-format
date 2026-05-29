@@ -9,21 +9,25 @@ import javax.imageio.ImageIO;
 
 public class MeowViewer {
     public static int pixelSize = 1;
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         File file = new File("test_image.meow");
-        Scanner sc = new Scanner(file);
+        DataInputStream sc = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
-        final int height = sc.nextInt();
-        final int width = sc.nextInt();
+        // read magic bytes
+        byte[] magic = new byte[4];
+        sc.readFully(magic);
+        
+        final int height = sc.readInt();
+        final int width = sc.readInt();
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         int[][][] image_data = new int[height][width][3];
 
         for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                image_data[i][j][0] = sc.nextInt(); int r = image_data[i][j][0]; //red
-                image_data[i][j][1] = sc.nextInt(); int g = image_data[i][j][1]; //green
-                image_data[i][j][2] = sc.nextInt(); int b = image_data[i][j][2]; //blue
+                image_data[i][j][0] = sc.readUnsignedByte(); int r = image_data[i][j][0]; //red
+                image_data[i][j][1] = sc.readUnsignedByte(); int g = image_data[i][j][1]; //green
+                image_data[i][j][2] = sc.readUnsignedByte(); int b = image_data[i][j][2]; //blue
                 
                 Color color = new Color(r, g, b);
                 image.setRGB(j, i, color.getRGB());
